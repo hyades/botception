@@ -1,0 +1,145 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+var logger = require('../logger.js');
+
+var debug = require('debug')('das:server');
+var http = require('http');
+var https = require('https');
+var fs = require('fs');
+var configParser = require('../ConfigParser/deployConfigParser.js');
+var projectEnv = configParser.getProjectEnv();
+var projectConfig = configParser.getProjectConfig();
+var httpPort = projectConfig.httpPort;
+var httpsPort = projectConfig.httpsPort;
+var setupSchemaConfig = require('../ConfigParser/dataFields').setupSchemaConfig;
+var mongodbConnect = require('../persistence/MongoDbConnection.js');
+var path = require('path');
+
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+var commonPath = path.join(__dirname, '../../common/auth');
+var options = {
+    key: fs.readFileSync(path.join(commonPath, 'privatekey.pem'), 'utf8'),
+    cert: fs.readFileSync(path.join(commonPath, 'server.crt'), 'utf8'),
+    ca: [fs.readFileSync(path.join(commonPath, 'AddTrustExternalCARoot.crt'), 'utf8'),
+        fs.readFileSync(path.join(commonPath, 'COMODORSAAddTrustCA.crt'), 'utf8'),
+        fs.readFileSync(path.join(commonPath, 'COMODORSADomainValidationSecureServerCA.crt'), 'utf8')
+    ]
+};
+
+var port = normalizePort(process.env.PORT || httpPort);
+var secureport = normalizePort(process.env.PORT || httpsPort);
+
+/**
+ * Create HTTP server.
+ */
+
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+setupSchemaConfig();
+
+var server, secureserver;
+var getExpressServers = function () {
+    var app = require('../app');
+
+    logger.info('project env: '+projectEnv);
+
+    server = http.createServer(app);
+    server.timeout = 10*60*1000;
+    secureserver = https.createServer(options, app);
+    secureserver.timeout = 10*60*1000;
+    app.set('port', secureport);
+
+};
+
+
+var main = function () {
+    mongodbConnect.connectMongoDb();
+    getExpressServers();
+    server.listen(port);
+    secureserver.listen(secureport);
+    server.on('error', onError);
+    secureserver.on('error', onError);
+    server.on('listening', onListening);
+    secureserver.on('listening', onSecureListening);
+};
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            logger.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            logger.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    logger.debug('Listening on ' + bind);
+    debug('Listening on ' + bind);
+}
+
+function onSecureListening() {
+    var addr = secureserver.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    logger.debug('Listening on ' + bind);
+    debug('Listening on ' + bind);
+}
+
+exports.main = main;
