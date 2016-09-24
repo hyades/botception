@@ -34,6 +34,28 @@ module.exports = function (task) {
     var links = task.links;
     links.forEach(function (idArray) {
         var msg = null;
+        switch(idArray.length) {
+            case 1:
+                return run(idArray[0], msg);
+            case 2:
+                var defer = Q.defer();
+                run(idArray[0], msg).then(function (newMsg) {
+                    run(idArray[1], newMsg).then(function () {
+                        defer.resolve()
+                    }, function(err) {defer.reject(err)})
+                });
+                return defer.promise;
+            case 3:
+                var defer = Q.defer();
+                run(idArray[0], msg).then(function (newMsg) {
+                    run(idArray[1], newMsg).then(function (nNewMsg) {
+                        run(idArray[2], nNewMsg).then(function () {
+                            defer.resolve()
+                        }, function(err) {defer.reject(err)})
+                    }, function(err) {defer.reject(err)})
+                });
+                return defer.promise;
+        }
 
     })
 
