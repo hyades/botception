@@ -22,14 +22,9 @@ var path = require('path');
  * Get port from environment and store in Express.
  */
 
-var commonPath = path.join(__dirname, '../../common/auth');
+
 var options = {
-    key: fs.readFileSync(path.join(commonPath, 'privatekey.pem'), 'utf8'),
-    cert: fs.readFileSync(path.join(commonPath, 'server.crt'), 'utf8'),
-    ca: [fs.readFileSync(path.join(commonPath, 'AddTrustExternalCARoot.crt'), 'utf8'),
-        fs.readFileSync(path.join(commonPath, 'COMODORSAAddTrustCA.crt'), 'utf8'),
-        fs.readFileSync(path.join(commonPath, 'COMODORSADomainValidationSecureServerCA.crt'), 'utf8')
-    ]
+
 };
 
 var port = normalizePort(process.env.PORT || httpPort);
