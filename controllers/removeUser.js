@@ -1,4 +1,4 @@
-var model = require('../models/userDataTable');
+var model = require('../models/UserData');
 var Q = require('q');
 
 var removeUser = function(userId) {
@@ -16,4 +16,4 @@ var removeUser = function(userId) {
 
     return defer.promise;
 };
-module.exports = addUser;
+module.exports = removeUser;

@@ -17,20 +17,20 @@ router.get('/run', function (req, res) {
 
 router.get('/getcb', function (req, res) {
     test().then(function(data) {
-        res.status(200);
         console.log('done', data);
+        res.status(200);
         res.send(data);
     }, function(err) {
-        res.status(500);
         logger.error(err);
+        res.status(500);
         res.send(err);
     })
 });
 
-router.post('/events', flock.router);
+router.post('/', flock.router);
 
 flock.events.on('app.install', function (event) {
-    addUser(event.userId, userToken).then(
+    addUser(event.userId, event.userToken).then(
         function (data) {
             var message = "Added user with id: " + data;
             console.log(message);

@@ -65,15 +65,11 @@ if(projectConfig.https == true) {
             res.status(200);
             res.send("healthCheck Success");
             res.end()
-        }
-
-        //else if(req.protocol !== 'https' && !req.secure ) {
-        else if (req.get('x-forwarded-proto') != 'https') {
+        } else if (req.get('x-forwarded-proto') != 'https') {
             res.set('x-forwarded-proto', 'https');
             //res.redirect('https://dashboards.spamanalyst.com:9000/');
             res.redirect('https://' + req.get('Host') + req.url);
-        }
-        else {
+        } else {
             next();
         }
     });
@@ -84,9 +80,8 @@ app.use('/fonts', express.static(path.join(__dirname, '..', 'webapp', 'public', 
 app.use('/js', express.static(path.join(__dirname, '..', 'webapp', 'public', 'js')));
 app.use('/images', express.static(path.join(__dirname, '..', 'webapp', 'public', 'images')));
 
-app.use('/api', routes);
 app.use('/events', routes);
-app.use('/', express.static(path.join(__dirname, '..', 'webapp', 'public')));
+app.use('/', express.static(path.join('public')));
 
 app.use(function(err, req, res, next) {
     var errorObj={};

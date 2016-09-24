@@ -1,4 +1,4 @@
-var model = require('../models/userDataTable');
+var model = require('../models/UserData');
 var Q = require('q');
 
 var addUser = function(userId, userToken) {
