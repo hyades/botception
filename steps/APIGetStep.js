@@ -33,7 +33,7 @@ var step = function (user, bot, url, retValuePath) {
 
 exports.step = step;
 
-exports.run = function (step) {
+exports.run = function (step, msg) {
 
 
     var defer = Q.defer();
