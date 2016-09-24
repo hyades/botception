@@ -5,6 +5,7 @@
 
 var Q = require('q');
 var model = require('../models/TaskStepData');
+var request = require('request');
 
 var step = function (user, bot, url, retValuePath) {
 
@@ -30,5 +31,27 @@ var step = function (user, bot, url, retValuePath) {
 
 };
 
-module.exports = step;
+exports.step = step;
 
+exports.run = function (step, msg) {
+
+
+    var defer = Q.defer();
+
+    var url = step.url;
+    var ret_val_path = step.ret_val_path;
+
+    request(url, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            if(ret_val_path)
+                defer.resolve(body[ret_val_path]);
+            else
+                defer.resolve(body);
+        }
+        else{
+            defer.reject(error);
+        }
+    });
+
+    return defer.promise;
+};

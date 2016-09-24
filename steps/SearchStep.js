@@ -29,5 +29,9 @@ var step = function (user, bot, regex) {
 
 };
 
-module.exports = step;
+exports.step = step;
+exports.run = function (step, msg) {
+
+};
+
 

@@ -13,7 +13,7 @@ var step = function (user, bot) {
     var obj = {
         user: user,
         bot: bot,
-        type: "image",
+        type: "msg",
         id: id
     };
 
@@ -28,5 +28,7 @@ var step = function (user, bot) {
 
 };
 
-module.exports = step;
+exports.step = step;
+exports.run = function (step, msg) {
 
+};

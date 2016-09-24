@@ -2,18 +2,18 @@
  * Created by aayush on 24/9/16.
  */
 
-var model = require('../models/TaskStepData');
 
 var Q = require('q');
+var model = require('../models/TaskStepData');
 
-var addStep = function (user, bot, data) {
+var step = function (user, bot) {
+
     var defer = Q.defer();
     var id = parseInt(Math.random () * 100000000).toString();
     var obj = {
         user: user,
         bot: bot,
-        data: data,
-        type: "add",
+        type: "image",
         id: id
     };
 
@@ -25,10 +25,12 @@ var addStep = function (user, bot, data) {
     });
 
     return defer.promise;
+
 };
 
+exports.step = step;
+exports.run = function (step, msg) {
 
-module.exports = addStep;
-
+};
 
 

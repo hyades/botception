@@ -25,6 +25,7 @@
     "immutable": "^3.7.5",
     "influx": "*",
     "keymirror": "0.1.1",
+    "request": "*",
     "moment": "2.10.6",
     "moment-timezone": "0.4.1",
     "mongodb": "*",

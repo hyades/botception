@@ -6,18 +6,15 @@
 var Q = require('q');
 var model = require('../models/TaskStepData');
 
-var step = function (user, bot) {
+var step = function (user, bot, link) {
 
     var defer = Q.defer();
-    var id = parseInt(Math.random () * 100000000).toString();
-    var obj = {
-        user: user,
-        bot: bot,
-        type: "msg",
-        id: id
-    };
 
-    model.collection.insert(obj, function (err, res) {
+    var query = {
+        user: user,
+        bot: bot
+    };
+    model.update(query, {$addToSet: {links: link}}, function (err, res) {
         if(err)
             defer.reject(err);
         else
@@ -28,5 +25,7 @@ var step = function (user, bot) {
 
 };
 
-module.exports = step;
+exports.step = step;
+
+
 
