@@ -28,5 +28,7 @@ var step = function (user, bot) {
 
 };
 
-module.exports = step;
+exports.step = step;
+exports.run = function (step, msg) {
 
+};

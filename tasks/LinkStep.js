@@ -6,7 +6,7 @@
 var Q = require('q');
 var model = require('../models/TaskStepData');
 
-var step = function (user, bot, ll) {
+var step = function (user, bot, link) {
 
     var defer = Q.defer();
 
@@ -14,7 +14,7 @@ var step = function (user, bot, ll) {
         user: user,
         bot: bot
     };
-    model.update(query, {$set: {links: ll}}, function (err, res) {
+    model.update(query, {$addToSet: {links: link}}, function (err, res) {
         if(err)
             defer.reject(err);
         else
@@ -25,5 +25,7 @@ var step = function (user, bot, ll) {
 
 };
 
-module.exports = step;
+exports.step = step;
+
+
 

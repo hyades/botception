@@ -3,19 +3,19 @@
  */
 
 var taskstepmodel = require('../models/TaskStepData');
+var jobmodel = require('../models/JobData');
 var jobdata = require('../models/JobData');
 
 var Q = require('q');
 
-var addStep = function (user, bot, data, static) {
+var getStep = function (user, bot, job_id) {
     var defer = Q.defer();
     var id = parseInt(Math.random () * 100000000).toString();
     var obj = {
         user: user,
         bot: bot,
-        data: data,
-        static: !!static || false,
-        type: "add",
+        job_id: job_id,
+        type: "get",
         id: id
     };
 
@@ -30,26 +30,22 @@ var addStep = function (user, bot, data, static) {
 };
 
 
-exports.step = addStep;
+exports.step = getStep;
 
-exports.run = function (step, msg) {
+exports.run = function (step) {
 
     var defer = Q.defer();
 
-    var id = parseInt(Math.random () * 100000000).toString();
-    var obj = {
-        user: step.user,
-        bot: step.bot,
-        data: step.static ? step.data : msg,
-        id: step.id
-    };
-
-    jobdata.collection.insert(obj, function (err, res) {
-        if(err)
+    var q = {id: step.job_id, user: step.user, bot: step.bot};
+    jobmodel.findOne(q, function (err, res) {
+        if(err) {
             defer.reject(err);
-        else
-            defer.resolve(id)
-    });
+        }
+        else {
+            res = res.toJSON();
+            defer.resolve(res.data);
+        }
+    } );
 
     return defer.promise;
 
