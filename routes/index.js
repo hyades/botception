@@ -8,6 +8,11 @@ var test = require('../controllers/testController'),
     removeUser = require('../controllers/removeUser'),
     executeMessage = require('../controllers/executeMessage');
 
+router.get('/run', function (req, res) {
+
+
+});
+
 
 
 router.get('/getcb', function (req, res) {

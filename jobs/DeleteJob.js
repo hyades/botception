@@ -3,13 +3,15 @@
  */
 
 var Q = require('q');
-var model = require('../models/MainDB');
+var model = require('../models/JobData');
 
-var deleteStep = function (id) {
+var deleteStep = function (user, bot, id) {
 
     var defer = Q.defer();
 
     var query = {
+        user: user,
+        bot: bot,
         id: id
     };
     model.remove(query, function (err, res) {

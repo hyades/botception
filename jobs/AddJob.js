@@ -2,12 +2,13 @@
  * Created by aayush on 24/9/16.
  */
 
-var model = require('../models/MainDB');
+var model = require('../models/JobData');
+
 var Q = require('q');
 
 var addStep = function (user, bot, data) {
     var defer = Q.defer();
-    var id = parseInt(Math.random () * 100000000);
+    var id = parseInt(Math.random () * 100000000).toString();
     var obj = {
         user: user,
         bot: bot,

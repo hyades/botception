@@ -4,7 +4,7 @@
 
 
 var Q = require('q');
-var model = require('../models/MainDB');
+var model = require('../models/JobData');
 
 var step = function (user, bot, id) {
 
@@ -17,7 +17,7 @@ var step = function (user, bot, id) {
         }
         else {
             res = res.toJSON();
-            defer.resolve(res.data);
+            defer.resolve({data: res.data, id:  res.id});
         }
     } );
 
