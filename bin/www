@@ -14,7 +14,6 @@ var projectEnv = configParser.getProjectEnv();
 var projectConfig = configParser.getProjectConfig();
 var httpPort = projectConfig.httpPort;
 var httpsPort = projectConfig.httpsPort;
-var setupSchemaConfig = require('../ConfigParser/dataFields').setupSchemaConfig;
 var mongodbConnect = require('../persistence/MongoDbConnection.js');
 var path = require('path');
 
@@ -45,7 +44,6 @@ var secureport = normalizePort(process.env.PORT || httpsPort);
  * Listen on provided port, on all network interfaces.
  */
 
-setupSchemaConfig();
 
 var server, secureserver;
 var getExpressServers = function () {

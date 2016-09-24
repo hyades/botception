@@ -4,7 +4,7 @@
 
 
 var Q = require('q');
-var model = require('../models/MainDB');
+var model = require('../models/TaskStepData');
 
 var step = function (id) {
 

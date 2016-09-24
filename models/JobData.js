@@ -11,6 +11,6 @@ var logger = require('../logger');
 
 
 
-var maindb = mongoConnection.model('botceptiondata', dbschema);
+var maindb = mongoConnection.model('jobdata', dbschema);
 module.exports = maindb;
 

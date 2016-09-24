@@ -5,11 +5,11 @@
 
 
 
-var tested = require('../steps/GetAll');
+var tested = require('../jobs/SearchJob');
 
 var test = function () {
 
-    return tested('user1', 'bot1');
+    return tested('user1', 'bot1', '.*fuck.*');
 
 
 };

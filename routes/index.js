@@ -8,6 +8,11 @@ var router = express.Router();
 
 var test = require('../controllers/testController');
 
+router.get('/run', function (req, res) {
+
+
+});
+
 
 
 router.get('/getcb', function (req, res) {
