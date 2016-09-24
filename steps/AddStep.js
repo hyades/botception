@@ -3,7 +3,6 @@
  */
 
 var model = require('../models/MainDB');
-
 var Q = require('q');
 
 var addStep = function (user, bot, data) {

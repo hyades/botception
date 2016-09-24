@@ -11,6 +11,8 @@ var configParser=require('./ConfigParser/deployConfigParser.js');
 var projectConfig=configParser.getProjectConfig();
 var accessLogsfile=projectConfig.accessLogs.filename;
 var compression = require('compression');
+var flock = require('./config/flock');
+
 
 
 var allowCrossDomain = function(req, res, next) {
@@ -27,7 +29,7 @@ app.set('views', path.join(__dirname, 'public', 'html'));
 //assign the swig view engine to .html files
 
 
-app.use(compression())
+app.use(compression());
 
 app.use(allowCrossDomain);
 
@@ -55,6 +57,7 @@ function isLoggedIn(req, res, next) {
 app.use(cookieParser());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(flock.validationTokenChecker);
 
 if(projectConfig.https == true) {
     app.use(function (req, res, next) {
@@ -82,6 +85,7 @@ app.use('/js', express.static(path.join(__dirname, '..', 'webapp', 'public', 'js
 app.use('/images', express.static(path.join(__dirname, '..', 'webapp', 'public', 'images')));
 
 app.use('/api', routes);
+app.use('/events', routes);
 app.use('/', express.static(path.join(__dirname, '..', 'webapp', 'public')));
 
 app.use(function(err, req, res, next) {
