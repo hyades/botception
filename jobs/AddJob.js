@@ -17,10 +17,11 @@ var addStep = function (user, bot, data) {
     };
 
     model.collection.insert(obj, function (err, res) {
-        if(err)
-            defer.reject(err);
-        else
+        if(err) {
+            defer.reject(err);    
+        } else {
             defer.resolve(id)
+        }
     });
 
     return defer.promise;

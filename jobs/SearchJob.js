@@ -25,7 +25,7 @@ var step = function (user, bot, regex) {
             res.map(function (obj) {obj=obj.toJSON();arr.push({data: obj.data, id:  obj.id})});
             defer.resolve(arr);
         }
-    } );
+    });
 
     return defer.promise;
 
