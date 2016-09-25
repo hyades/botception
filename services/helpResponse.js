@@ -19,16 +19,19 @@ var getHelpResponse = function (type, description) {
         for (j = 0; j < rule.command.length; j += 1) {
             ruleXML += " <strong>" + rule.command[j] + "</strong>";
         }
-        for (j = 0; j < rule.param.length; j += 1) {
-            ruleXML += " @<i>" + rule.param[i] + "</i>";
+        if (rule.param) {
+            for (j = 0; j < rule.param.length; j += 1) {
+                ruleXML += " @<i>" + rule.param[i] + "</i>";
+            }
         }
         ruleXML += "      ";
         ruleXML += rule.description;
         ruleXML += "<br/>";
-        rule += ruleXML;
+        xml += ruleXML;
     }
     xml += "</flockml>";
     console.log(xml);
+    return xml;
 };
 
 var helpResponse = function (type) {

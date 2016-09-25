@@ -60,7 +60,10 @@ flock.events.on('app.uninstall', function(event) {
 });
 
 flock.events.on('chat.receiveMessage', function(event) {
-    executeMessage(event.message);
+    // executeMessage(event.message);
+    return {
+        text: 'Got: '
+    };
 });
 
 module.exports = router;

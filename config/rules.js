@@ -2,12 +2,12 @@ var rules = [
     {
         "type": "root",
         "command": ["create-bot"],
-        "param": ["name"],
+        "param": ["name", "description"],
         "description": "Create a new bot"
     },
     {
         "type": "root",
-        "command": ["bots"],
+        "command": ["my-bots"],
         "descritption": "get a list of your bots"
     },
     {
