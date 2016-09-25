@@ -56,12 +56,29 @@ var rules = [
         "description": "enter a regex for searching data values of a bot"
     },
     {
-        "type": "",
-        "commamd": ["search"],
-        "param": ["regex"],
-        "description": "enter a regex for searching data values of a bot"
+        "type": "step",
+        "commamd": ["create-step"],
+        "param": ["db-query"],
+        "description": "create an atomic task that can be combined with other tasks"
     },
-
+    {
+        "type": "task",
+        "command": ["create-task"],
+        "param": ["name"],
+        "description": "create a task to be executed"
+    },
+    {
+        "type": "task",
+        "command": ["pipe"],
+        "param": ["task", "list of steps"],
+        "description": "create a task as a seriers of steps"
+    },
+    {
+        "type": "task",
+        "command": ["repeat"],
+        "param": ["task", "time_of_first_occurrence", "interval"],
+        "description": "repeat task on regular interval of time"
+    }
 ];
 
 module.exports = rules;
