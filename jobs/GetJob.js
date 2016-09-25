@@ -17,7 +17,7 @@ var step = function (user, bot, id) {
         }
         else {
             res = res.toJSON();
-            defer.resolve({data: res.data, id:  res.id});
+            defer.resolve(res.data);
         }
     } );
 

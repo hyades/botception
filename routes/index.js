@@ -1,4 +1,3 @@
-
 var express = require('express');
 var router = express.Router();
 var flock = require('../config/flock');
@@ -60,9 +59,9 @@ flock.events.on('app.uninstall', function(event) {
 });
 
 flock.events.on('chat.receiveMessage', function(event) {
-    // executeMessage(event.message);
+    executeMessage(event.message);
     return {
-        text: 'Got: '
+        text: 'Got'
     };
 });
 

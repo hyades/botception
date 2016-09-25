@@ -15,7 +15,7 @@ module.exports = function (user, name, description) {
         if(err)
             defer.reject(err);
         else
-            defer.resolve();
+            defer.resolve(name + " bot created");
     });
 
     return defer.promise;

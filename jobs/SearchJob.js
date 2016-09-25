@@ -9,6 +9,15 @@ var model = require('../models/JobData');
 var step = function (user, bot, regex) {
 
     var defer = Q.defer();
+    var getXML = function (list) {
+        var xml = "<flockml>";
+        for (var i = 0; i < list.length; i += 1) {
+            var bot = list[i].toJSON();
+            xml += "<strong>" + bot.id + "</strong>  ==> " + bot.data + "<br/>";
+        }
+        xml += "</flockml>";
+        return xml;
+    };
 
     var query = {
         user: user,
@@ -21,9 +30,7 @@ var step = function (user, bot, regex) {
             defer.reject(err);
         }
         else {
-            var arr = [];
-            res.map(function (obj) {obj=obj.toJSON();arr.push({data: obj.data, id:  obj.id})});
-            defer.resolve(arr);
+            defer.resolve(getXML(res));
         }
     });
 
