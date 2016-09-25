@@ -13,13 +13,13 @@ var trigger = function (user, bot, task, nextTime, delta) {
     var query = {
         user: user,
         bot: bot,
-        task: task
+        name: task
     };
-    model.update(query, {$set: {trigger_type: 'remind', next_time: nextTime, delta: delta}}, function (err, res) {
+    model.collection.update(query, {$set: {trigger_type: 'remind', next_time: nextTime, delta: delta}}, function (err, res) {
         if(err)
             defer.reject(err);
         else
-            defer.resolve(id)
+            defer.resolve()
     });
 
     return defer.promise;

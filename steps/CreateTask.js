@@ -6,14 +6,15 @@
 var Q = require('q');
 var model = require('../models/TaskData');
 
-var step = function (user, bot) {
+var step = function (user, bot, name) {
 
     var defer = Q.defer();
     var id = parseInt(Math.random () * 100000000).toString();
     var obj = {
         user: user,
         bot: bot,
-        id: id
+        id: id,
+        name: name
     };
 
     model.collection.insert(obj, function (err, res) {

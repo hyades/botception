@@ -30,7 +30,16 @@ var step = function (user, bot) {
 
 exports.step = step;
 exports.run = function (step, msg) {
+    console.log('running picture', arguments)
+    var sendmsg = require('../controllers/executeMessage').sendImage;
 
+    var defer = Q.defer();
+
+    sendmsg(msg, step.user);
+
+    defer.resolve();
+
+    return defer.promise;
 };
 
 

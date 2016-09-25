@@ -21,7 +21,7 @@ var getHelpResponse = function (type, description) {
         }
         if (rule.param) {
             for (j = 0; j < rule.param.length; j += 1) {
-                ruleXML += " @<i>" + rule.param[i] + "</i>";
+                ruleXML += " @<i>" + rule.param[j] + "</i>";
             }
         }
         ruleXML += "      ";

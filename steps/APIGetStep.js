@@ -35,13 +35,16 @@ exports.step = step;
 
 exports.run = function (step, msg) {
 
-
+    console.log('running apiget', arguments)
     var defer = Q.defer();
 
     var url = step.url;
     var ret_val_path = step.ret_val_path;
 
     request(url, function (error, response, body) {
+       body = JSON.parse(body)
+        console.log(body, body[ret_val_path])
+
         if (!error && response.statusCode == 200) {
             if(ret_val_path)
                 defer.resolve(body[ret_val_path]);

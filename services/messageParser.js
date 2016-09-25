@@ -10,14 +10,17 @@ var addJob = require("../jobs/AddJob");
 var getJob = require("../jobs/GetJob");
 var getAllJob = require("../jobs/GetAllJob");
 var searchJob = require("../jobs/SearchJob");
-var addstep = require('../steps/AddStep');
-var apigetstep = require('../steps/APIGetStep');
-var displaymsgstep = require('../steps/DisplayMsgStep');
-var displaypicstep = require('../steps/DisplayPictureStep');
-var getstep = require('../steps/GetStep');
-var searchstep = require('../steps/SearchStep');
-var linkstep = require('../steps/LinkStep');
+var addstep = require('../steps/AddStep').step;
+var apigetstep = require('../steps/APIGetStep').step;
+var displaymsgstep = require('../steps/DisplayMsgStep').step;
+var displaypicstep = require('../steps/DisplayPictureStep').step;
+var getstep = require('../steps/GetStep').step;
+var searchstep = require('../steps/SearchStep').step;
+var linkstep = require('../steps/LinkStep').step;
 var remind = require('../triggers/RemindTrigger');
+var createtask = require('../steps/CreateTask');
+
+
 var getHandler = function (commands, user) {
     if (!util.isSet(commands)) {
         return;
@@ -63,7 +66,7 @@ var getHandler = function (commands, user) {
                 };
             case "pipe":
                 return function () {
-                    return linkstep(user, bot, commands);
+                    return linkstep(user, bot, commands.shift(), commands);
                 };
             case "repeat":
                 return function () {
@@ -104,6 +107,12 @@ var getHandler = function (commands, user) {
                 var thirdCommand = commands.shift();
                 return handleStep(thirdCommand, bot, user, commands);
                 break;
+            case "create-task":
+                return function () {
+                    return createtask(user, bot, commands.shift());
+                }
+
+
 
         }
     };
@@ -140,7 +149,7 @@ var getHandler = function (commands, user) {
 
 var parseMessage = function (message) {
     var user = message.from;
-    message1 = message.text;
+    message1 = message.text.trim();
     var response = {
         "type": "invalid",
         "message": "Invalid command. Please enter /help to get started"

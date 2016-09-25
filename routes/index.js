@@ -4,11 +4,21 @@ var flock = require('../config/flock');
 
 var test = require('../controllers/testController'),
     addUser = require('../controllers/addUser'),
-    removeUser = require('../controllers/removeUser'),
-    executeMessage = require('../controllers/executeMessage');
+    removeUser = require('../controllers/removeUser');
+var executeMessage = require('../controllers/executeMessage').executeMessage;
 
+var run = require('../controllers/runController');
 router.get('/run', function (req, res) {
 
+    run().then(function(data) {
+        console.log('done', data);
+        res.status(200);
+        res.send(data);
+    }, function(err) {
+        logger.error(err);
+        res.status(500);
+        res.send(err);
+    })
 
 });
 
