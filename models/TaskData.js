@@ -27,12 +27,12 @@ dbschema.statics.getTasksToRun = function (timestamp) {
 
 dbschema.statics.setNextTimeOfTask = function (id) {
     var defer = Q.defer();
-
+    console.log('set next time', id)
     this.findOne({id: id}, function (err, res) {
         if(err) defer.reject(err);
         else {
             res = res.toJSON();
-            var next_time = moment(res.next_time, 'YYMMDDHHmm').subtract(res.delta, 'minutes').format('YYMMDDHHmm');
+            var next_time = moment(res.next_time, 'YYMMDDHHmm').add(res.delta, 'minutes').format('YYMMDDHHmm');
             this.update({id: id}, {$set: {next_time: next_time}}, function (err, res) {
                 if(err)
                     defer.reject(err);

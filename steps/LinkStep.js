@@ -4,21 +4,21 @@
 
 
 var Q = require('q');
-var model = require('../models/TaskStepData');
+var model = require('../models/TaskData');
 
-var step = function (user, bot, link) {
+var step = function (user, bot, task, link) {
 
     var defer = Q.defer();
-
     var query = {
         user: user,
-        bot: bot
+        bot: bot,
+        name: task
     };
-    model.update(query, {$addToSet: {links: link}}, function (err, res) {
+    model.collection.update(query, {$addToSet: {links: link}}, function (err, res) {
         if(err)
             defer.reject(err);
         else
-            defer.resolve(id)
+            defer.resolve()
     });
 
     return defer.promise;

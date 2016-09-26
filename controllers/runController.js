@@ -15,13 +15,16 @@ module.exports = function () {
 
     var timestamp = moment().format('YYMMDDHHmm');
     taskModel.getTasksToRun(timestamp).then (function (tasks) {
+        console.log(tasks);
         var prArr = [];
         tasks.map(function (task) {
-            prArr.push(runner(task));
+            console.log(task)
+            prArr.push(runner(task._doc));
         });
         Q.allSettled(prArr).then (function () {
             var arr = [];
             tasks.map(function (task) {
+                task = task._doc;
                 arr.push(taskModel.setNextTimeOfTask(task.id));
             });
             Q.allSettled(arr).then (function () {

@@ -9,9 +9,10 @@ var stepHandler = require('../runner/stepHandler');
 
 
 var run = function (id, msg) {
+    console.log('running', arguments)
 
     var defer = Q.defer();
-    taskStepModel.find({id: id}, function (err, res) {
+    taskStepModel.findOne({id: id}, function (err, res) {
         if (err) {
             defer.reject(err);
         }
@@ -30,9 +31,11 @@ var run = function (id, msg) {
 };
 
 module.exports = function (task) {
+    // console.log(Object.keys(task), typeof task);
+    var links = task['links'];
 
-    var links = task.links;
     links.forEach(function (idArray) {
+        console.log(idArray)
         var msg = null;
         switch(idArray.length) {
             case 1:

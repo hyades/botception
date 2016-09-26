@@ -4,26 +4,26 @@
 
 
 var Q = require('q');
-var model = require('../models/JobData');
+var model = require('../models/UserData');
 
-var step = function (user, bot, id) {
+var getUserToken = function (user) {
 
     var defer = Q.defer();
 
-    var q = {id: id, user: user, bot: bot};
+    var q = {userId: user};
     model.findOne(q, function (err, res) {
         if(err) {
             defer.reject(err);
         }
         else {
             res = res.toJSON();
-            defer.resolve(res.data);
+            defer.resolve(res.userToken);
         }
-    } );
+    });
 
     return defer.promise;
 
 };
 
-module.exports = step;
+module.exports = getUserToken;
 
